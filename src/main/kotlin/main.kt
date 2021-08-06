@@ -7,61 +7,27 @@ fun main() {
     val contaGiovanni = Conta()
     contaGiovanni.titular = "Giovanni"
     contaGiovanni.numero = 1000
-    contaGiovanni.saldo = 200.0
+    contaGiovanni.setSaldo(-200.0)
 
     val conta2 = Conta()
     conta2.titular = "2"
     conta2.numero = 1001
-    conta2.saldo = 300.0
+    conta2.setSaldo(300.0)
 
     println(conta2.titular)
     println(conta2.numero)
-    println(conta2.saldo)
+    println(conta2.getSaldo())
 
     println(contaGiovanni.titular)
     println(contaGiovanni.numero)
-    println(contaGiovanni.saldo)
+    println(contaGiovanni.getSaldo())
 
-    println("depositando na conta do Giovanni")
-    contaGiovanni.deposita(50.0)
-    println(contaGiovanni.saldo)
-
-    println("depositando na conta 2")
-    conta2.deposita(70.0)
-    println(conta2.saldo)
-
-    println("sacando na conta do Giovanni")
-    contaGiovanni.saca(250.0)
-    println(contaGiovanni.saldo)
-
-    println("sacando na conta da 2")
-    conta2.saca(100.0)
-    println(conta2.saldo)
-
-    println("saque em excesso na conta do Giovanni")
-    contaGiovanni.saca(100.0)
-    println(contaGiovanni.saldo)
-
-    println("saque em excesso na conta da 2")
-    conta2.saca(500.0)
-    println(conta2.saldo)
-
-    println("Transferência da conta 2 para o Giovanni")
-
-    if (conta2.transfere(300.0, contaGiovanni)) {
-        println("Transferência sucedida")
-    } else {
-        println("Falha na transferência")
-    }
-
-    println(contaGiovanni.saldo)
-    println(conta2.saldo)
 }
 
 class Conta {
     var titular = ""
     var numero = 0
-    var saldo = 0.0
+    private var saldo = 0.0
 
     fun deposita(valor: Double) {
         this.saldo += valor
@@ -76,10 +42,20 @@ class Conta {
     fun transfere(valor: Double, destino: Conta): Boolean {
         if (saldo >= valor) {
             saldo -= valor
-            destino.saldo += valor
+            destino.deposita(valor)
             return true
         }
         return false
+    }
+
+    fun getSaldo(): Double {
+        return saldo
+    }
+
+    fun setSaldo(valor: Double) {
+        if (valor > 0) {
+            saldo = valor
+        }
     }
 }
 
